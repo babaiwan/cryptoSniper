@@ -1,0 +1,19 @@
+{
+  "name": "cryptosniper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bignumber.js": "^9.1.2",
+    "ethers": "^5.7.2",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "web3": "^4.9.0"
+  }
+}
