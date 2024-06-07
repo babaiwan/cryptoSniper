@@ -28,6 +28,29 @@ const provider = new ethers.providers.JsonRpcProvider('https://sepolia.infura.io
     console.log(`名称: ${nameWETH}`)
     console.log(`代号: ${symbolWETH}`)
     console.log(`总供给: ${ethers.utils.formatEther(totalSupplyWETH)}`)
-    // const balanceWETH = await contractWETH.balanceOf('vitalik.eth')
-    // console.log(`Vitalik持仓: ${ethers.utils.formatEther(balanceWETH)}\n`)
+
+    // 2.进行区块扫描
+    // 扫描从第一个区块到最新区块
+    for (let i = blockNumber; i >=0; i--) {
+        const block = await provider.getBlockWithTransactions(i);
+        console.log(`Scanning Block ${i}`);
+
+        for (const tx of block.transactions) {
+            // 检查交易是否涉及目标合约地址
+            if (tx.to && tx.to.toLowerCase() === addressWETH.toLowerCase()) {
+                console.log(`Transaction to WETH Contract Found in Block ${i}:`, tx);
+            }
+
+            // 检查交易事件
+            const receipt = await provider.getTransactionReceipt(tx.hash);
+            if (receipt.logs) {
+                for (const log of receipt.logs) {
+                    if (log.address.toLowerCase() === addressWETH.toLowerCase()) {
+                        console.log(`Event in WETH Contract Found in Block ${i}:`, log);
+                    }
+                }
+            }
+        }
+    }
+
 })()
